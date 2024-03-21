@@ -44,6 +44,7 @@ dependencies:
   badges: ^3.1.2
   fluttertoast: ^8.2.4
   intl: ^0.19.0
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -89,12 +90,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: AnonymousPro
+    - family: Roboto
       fonts:
-        - asset: fonts/AnonymousPro-Regular.ttf
-        - asset: fonts/AnonymousPro-Bold.ttf
-          weight: 700
-
+        - asset: fonts/RobotoMono-Regular.ttf
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
