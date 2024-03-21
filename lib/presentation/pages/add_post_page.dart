@@ -6,10 +6,8 @@ import '../../utils/dimensions.dart';
 import '../../widgets/primary_button_widget.dart';
 import '../../widgets/primary_text_form_field_widget.dart';
 
-
-
-class AddApiPage extends StatelessWidget {
-  const AddApiPage({super.key});
+class AddPostPage extends StatelessWidget {
+  const AddPostPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class AddApiPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: kMarginMedium2),
                         child: Text(
-                          "Add API",
+                          "Add New Post",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: kTextHeading1X,
@@ -69,10 +67,10 @@ class AddApiPage extends StatelessWidget {
           ),
 
           /// CONFIRM BUTTON VIEW
-           Align(
+          Align(
             alignment: Alignment.bottomCenter,
             child: PrimaryButton(
-              onTap: (){},
+              onTap: () {},
               label: "Confirm",
             ),
           )

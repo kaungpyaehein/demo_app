@@ -1,10 +1,11 @@
 import 'package:hive_flutter/adapters.dart';
+import 'package:iapp_flutter_interview_app/persistence/hive_constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_vo.g.dart';
 
 @JsonSerializable()
-// @HiveType(typeId: kHiveTypeUserVO, adapterName: kAdapterNameUserVO)
+@HiveType(typeId: kHiveTypeIdPostVO, adapterName: kAdapterNamePostVO)
 class PostVO {
   @JsonKey(name: "userId")
   @HiveField(0)

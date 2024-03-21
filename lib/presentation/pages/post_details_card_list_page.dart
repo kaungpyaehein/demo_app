@@ -6,8 +6,8 @@ import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
 
 
-class UserDetailsPage extends StatelessWidget {
-  const UserDetailsPage({super.key});
+class PostDetailsCardListPage extends StatelessWidget {
+  const PostDetailsCardListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class UserDetailsPage extends StatelessWidget {
               Gap(kMarginLarge),
 
               /// USER DETAILS CARD LIST
-              UserDetailsCardListView()
+              PostDetailsCardListView()
             ],
           ),
         ),
@@ -40,8 +40,8 @@ class UserDetailsPage extends StatelessWidget {
   }
 }
 
-class UserDetailsCardListView extends StatelessWidget {
-  const UserDetailsCardListView({
+class PostDetailsCardListView extends StatelessWidget {
+  const PostDetailsCardListView({
     super.key,
   });
 

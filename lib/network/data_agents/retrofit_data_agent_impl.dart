@@ -36,7 +36,7 @@ class RetrofitDataAgentImpl extends DemoAppDataAgent {
 
   CustomException _createException(dynamic error) {
     ErrorVO errorVO;
-    if (error is DioError) {
+    if (error is DioException) {
       errorVO = _parseDioError(error);
     } else {
       errorVO = ErrorVO(

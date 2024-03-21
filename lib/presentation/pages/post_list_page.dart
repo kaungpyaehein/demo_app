@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
-class UserListPage extends StatelessWidget {
-  const UserListPage({super.key});
+class PostListPage extends StatelessWidget {
+  const PostListPage({super.key});
 
   @override
   Widget build(BuildContext context) {

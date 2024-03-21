@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 
+import '../../persistence/post_dao.dart';
 import '../../utils/dimensions.dart';
 
-class ApiDetailsPage extends StatelessWidget {
+class PostDetailsPage extends StatelessWidget {
   final int index;
-  const ApiDetailsPage({super.key, required this.index});
+  const PostDetailsPage({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(PostsDao().getPostById(1)?.body.toString());
+
     return Hero(
       transitionOnUserGestures: true,
       tag: index,

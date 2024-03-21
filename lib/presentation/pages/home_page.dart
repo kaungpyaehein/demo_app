@@ -2,16 +2,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:gap/gap.dart';
+import 'package:iapp_flutter_interview_app/persistence/post_dao.dart';
 
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
-import 'add_api_page.dart';
-import 'api_details_page.dart';
-import 'edit_api_page.dart';
+import 'add_post_page.dart';
+import 'post_details_page.dart';
+import 'edit_post_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    debugPrint(PostsDao().getAllPosts().toString());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +50,14 @@ class HomePage extends StatelessWidget {
                       fontWeight: FontWeight.w700),
                 ),
               ),
+
+              /// GAP
               const SliverToBoxAdapter(child: Gap(kMarginXLarge)),
 
               /// SEARCH VIEW
               const SliverToBoxAdapter(child: SearchView()),
 
+              /// GAP
               const SliverToBoxAdapter(child: Gap(kMarginXLarge)),
 
               SliverToBoxAdapter(
@@ -60,7 +75,7 @@ class HomePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AddApiPage(),
+                              builder: (context) => const AddPostPage(),
                             ));
                       },
                     ),
@@ -93,7 +108,7 @@ class UserCardListView extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ApiDetailsPage(
+                  builder: (context) => PostDetailsPage(
                     index: index,
                   ),
                 ));
@@ -164,7 +179,7 @@ class UserCardListView extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const EditApiPage(),
+                                builder: (context) => const EditPostPage(),
                               ));
                         },
                       ),
@@ -247,7 +262,7 @@ class AddButton extends StatelessWidget {
           vertical: kMarginSmall,
         ),
         child: const Icon(
-          CupertinoIcons.add,
+          Icons.add,
           color: Colors.white,
         ),
       ),
