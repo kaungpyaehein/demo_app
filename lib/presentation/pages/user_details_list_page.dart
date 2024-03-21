@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
-import '../utils/colors.dart';
+
 
 class UserDetailsPage extends StatelessWidget {
   const UserDetailsPage({super.key});

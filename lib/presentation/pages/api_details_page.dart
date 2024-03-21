@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 
-import '../utils/dimensions.dart';
+import '../../utils/dimensions.dart';
 
 class ApiDetailsPage extends StatelessWidget {
   final int index;
-  const ApiDetailsPage({Key? key, required this.index}) : super(key: key);
+  const ApiDetailsPage({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {

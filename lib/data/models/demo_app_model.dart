@@ -7,7 +7,7 @@
 // import 'package:the_movie_booking_app/data/vos/seat_vo.dart';
 // import 'package:the_movie_booking_app/data/vos/snack_category_vo.dart';
 // import 'package:the_movie_booking_app/data/vos/snack_vo.dart';
-// import 'package:the_movie_booking_app/data/vos/user_vo.dart';
+// import 'package:the_movie_booking_app/data/vos/post_vo.dart';
 // import 'package:the_movie_booking_app/network/data_agents/retrofit_data_agent_impl.dart';
 // import 'package:the_movie_booking_app/network/data_agents/data_agent.dart';
 // import 'package:the_movie_booking_app/network/responses/otp_response.dart';

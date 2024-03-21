@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iapp_flutter_interview_app/pages/user_details_list_page.dart';
-import 'package:iapp_flutter_interview_app/pages/user_list_page.dart';
+import 'package:iapp_flutter_interview_app/presentation/pages/user_details_list_page.dart';
+import 'package:iapp_flutter_interview_app/presentation/pages/user_list_page.dart';
+
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iconsax/iconsax.dart';
 

@@ -3,8 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
-import '../widgets/primary_button_widget.dart';
-import '../widgets/primary_text_form_field_widget.dart';
+import '../../widgets/primary_button_widget.dart';
+import '../../widgets/primary_text_form_field_widget.dart';
+
+
 
 class EditApiPage extends StatelessWidget {
   const EditApiPage({super.key});
@@ -65,9 +67,12 @@ class EditApiPage extends StatelessWidget {
           ),
 
           /// CONFIRM BUTTON VIEW
-          const Align(
+           Align(
             alignment: Alignment.bottomCenter,
-            child: PrimaryButton(),
+            child: PrimaryButton(
+              onTap: (){},
+              label: "Confirm",
+            ),
           )
         ],
       ),

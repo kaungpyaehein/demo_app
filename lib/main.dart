@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:iapp_flutter_interview_app/pages/app_navigation.dart';
+import 'package:iapp_flutter_interview_app/network/data_agents/retrofit_data_agent_impl.dart';
+import 'package:iapp_flutter_interview_app/presentation/pages/app_navigation.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
-import 'package:iapp_flutter_interview_app/utils/fonts.dart';
 
 void main() {
+  RetrofitDataAgentImpl().getPosts().then((value) {
+    print(value.toString());
+  });
   runApp(const InterviewDemoApp());
 }
 

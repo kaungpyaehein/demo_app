@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../utils/colors.dart';
-import '../utils/dimensions.dart';
-import '../widgets/primary_button_widget.dart';
-import '../widgets/primary_text_form_field_widget.dart';
+import '../../utils/colors.dart';
+import '../../utils/dimensions.dart';
+import '../../widgets/primary_button_widget.dart';
+import '../../widgets/primary_text_form_field_widget.dart';
+
+
 
 class AddApiPage extends StatelessWidget {
   const AddApiPage({super.key});
@@ -19,6 +21,8 @@ class AddApiPage extends StatelessWidget {
           Column(
             children: [
               const Gap(kMarginLarge),
+
+              /// View
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(
@@ -65,9 +69,12 @@ class AddApiPage extends StatelessWidget {
           ),
 
           /// CONFIRM BUTTON VIEW
-          const Align(
+           Align(
             alignment: Alignment.bottomCenter,
-            child: PrimaryButton(),
+            child: PrimaryButton(
+              onTap: (){},
+              label: "Confirm",
+            ),
           )
         ],
       ),

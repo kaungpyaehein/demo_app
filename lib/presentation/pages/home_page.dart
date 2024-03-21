@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:gap/gap.dart';
-import 'package:iapp_flutter_interview_app/pages/add_api_page.dart';
-import 'package:iapp_flutter_interview_app/pages/api_details_page.dart';
-import 'package:iapp_flutter_interview_app/pages/edit_api_page.dart';
 
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
+
+import 'add_api_page.dart';
+import 'api_details_page.dart';
+import 'edit_api_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,45 +24,48 @@ class HomePage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kMarginMedium4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(kMarginXLarge),
+          child: CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(child: Gap(kMarginXLarge)),
 
               /// TITLE
-              const Text(
-                "API Translation",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: kTextHeading2X,
-                    fontWeight: FontWeight.w700),
+              const SliverToBoxAdapter(
+                child: Text(
+                  "API Translation",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: kTextHeading2X,
+                      fontWeight: FontWeight.w700),
+                ),
               ),
-              const Gap(kMarginXLarge),
+              const SliverToBoxAdapter(child: Gap(kMarginXLarge)),
 
               /// SEARCH VIEW
-              const SearchView(),
+              const SliverToBoxAdapter(child: SearchView()),
 
-              const Gap(kMarginXLarge),
+              const SliverToBoxAdapter(child: Gap(kMarginXLarge)),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// TABS VIEW
-                  const Expanded(
-                    child: ApiTabBarView(),
-                  ),
+              SliverToBoxAdapter(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// TABS VIEW
+                    const Expanded(
+                      child: ApiTabBarView(),
+                    ),
 
-                  /// ADD BUTTON
-                  AddButton(
-                    onTapAdd: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddApiPage(),
-                          ));
-                    },
-                  ),
-                ],
+                    /// ADD BUTTON
+                    AddButton(
+                      onTapAdd: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddApiPage(),
+                            ));
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               /// USER CARDS
@@ -79,101 +83,99 @@ class UserCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return Hero(
-          tag: index,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ApiDetailsPage(
-                      index: index,
-                    ),
-                  ));
-            },
-            child: Material(
-              type: MaterialType.transparency,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(
-                      kMarginXLarge,
-                    ),
-                    gradient: kUserCardGradient),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kMarginMedium4, vertical: kMarginMedium4),
-                margin: const EdgeInsets.only(bottom: kMarginMedium2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        /// AVATAR
-                        CircleAvatar(
-                          maxRadius: 30,
-                          backgroundColor: Colors.black,
-                          child: Text(
-                            "EX",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 25),
-                          ),
-                        ),
-
-                        /// NAME
-                        Text(
-                          "Name",
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
+      childCount: 10,
+      (context, index) => Hero(
+        tag: index,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ApiDetailsPage(
+                    index: index,
+                  ),
+                ));
+          },
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(
+                    kMarginXLarge,
+                  ),
+                  gradient: kUserCardGradient),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kMarginMedium4, vertical: kMarginMedium4),
+              margin: const EdgeInsets.only(bottom: kMarginMedium2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      /// AVATAR
+                      CircleAvatar(
+                        maxRadius: 30,
+                        backgroundColor: Colors.black,
+                        child: Text(
+                          "EX",
                           style: TextStyle(
-                              color: Colors.white, fontSize: kTextRegular2X),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 25),
                         ),
+                      ),
 
-                        /// API
-                        Text(
-                          "API",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: Colors.white, fontSize: kTextRegular),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        /// DELETE API BUTTON
-                        DeleteButton(
-                          onTapDelete: () {
-                            showDeleteDialog(context);
-                          },
-                        ),
-                        const SizedBox(height: kMarginXXLarge),
+                      /// NAME
+                      Text(
+                        "Name",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: kTextRegular2X),
+                      ),
 
-                        /// EDIT API BUTTON
-                        EditButton(
-                          onTapEdit: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const EditApiPage(),
-                                ));
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      /// API
+                      Text(
+                        "API",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: Colors.white, fontSize: kTextRegular),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// DELETE API BUTTON
+                      DeleteButton(
+                        onTapDelete: () {
+                          showDeleteDialog(context);
+                        },
+                      ),
+                      const SizedBox(height: kMarginXXLarge),
+
+                      /// EDIT API BUTTON
+                      EditButton(
+                        onTapEdit: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EditApiPage(),
+                              ));
+                        },
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     ));
   }
 
@@ -187,7 +189,7 @@ class UserCardListView extends StatelessWidget {
           // shadowColor: Colors.black.withOpacity(0.9),
           surfaceTintColor: Colors.black.withOpacity(0.9),
           elevation: 2,
-          titlePadding: const EdgeInsets.only(bottom: kMarginXLarge),
+          titlePadding: const EdgeInsets.symmetric(vertical: kMarginXLarge),
           title: const Text(
             "Delete API",
             textAlign: TextAlign.center,

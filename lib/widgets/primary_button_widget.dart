@@ -4,8 +4,10 @@ import '../utils/colors.dart';
 import '../utils/dimensions.dart';
 
 class PrimaryButton extends StatelessWidget {
+  final String label;
+  final void Function() onTap;
   const PrimaryButton({
-    super.key,
+    super.key, required this.label, required this.onTap,
   });
 
   @override
