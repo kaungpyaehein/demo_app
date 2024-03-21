@@ -117,14 +117,14 @@ class UserCardListView extends StatelessWidget {
                       children: [
                         /// AVATAR
                         CircleAvatar(
-                          maxRadius: 35,
+                          maxRadius: 30,
                           backgroundColor: Colors.black,
                           child: Text(
                             "EX",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
-                                fontSize: 30),
+                                fontSize: 25),
                           ),
                         ),
 

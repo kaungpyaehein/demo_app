@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iapp_flutter_interview_app/pages/user_details_list_page.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -16,7 +17,7 @@ class _AppNavigationState extends State<AppNavigation> {
 
   final List<Widget> _pagesToDisplay = [
     const HomePage(),
-    const HomePage(),
+    const UserDetailsPage(),
     const HomePage(),
   ];
 
