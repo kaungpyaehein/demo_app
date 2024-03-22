@@ -11,7 +11,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final DemoAppModel demoAppModel = DemoAppModel();
 
   PostsBloc() : super(PostsInitial()) {
-    on<GetAllPostsEvent>((event, emit) {
+    on<GetAllPostsEvent>((event, emit) async {
       /// Show Loading or Loading state emit
       emit(GetPostsLoadingState());
 
@@ -19,9 +19,9 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           demoAppModel.getAllPostsFromLocalStorage();
       if (postsFromLocal.isEmpty) {
         /// Get posts from network
-        demoAppModel.getAllPosts().then((posts) {
+        await demoAppModel.getAllPosts().then((posts) {
           /// EMIT SUCCESS STATE
-          emit(GetPostsSuccessState(postVOList: posts));
+          (GetPostsSuccessState(postVOList: posts));
         }).catchError((error) {
           /// EMIT FAIL STATE
           emit(GetPostsFailureState(errorMessage: error.toString()));
@@ -34,6 +34,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     on<OnDeletePostEvent>(
       (event, emit) {
         demoAppModel.deletePostById(event.id);
+
         emit(DeletePostSuccessState());
       },
     );
@@ -41,13 +42,26 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     on<OnEditPostConfirmEvent>(
       (event, emit) {
         demoAppModel.editPost(event.postVO);
-        emit(DeletePostSuccessState());
+        emit(EditPostSuccessState());
       },
     );
     on<OnAddPostConfirmedEvent>(
       (event, emit) {
         demoAppModel.addNewPost(event.postVO);
         emit(AddPostSuccessState());
+      },
+    );
+    on<OnRefreshAllPosts>(
+      (event, emit) async {
+        demoAppModel.deletePostFromLocalStorage();
+        emit(GetPostsLoadingState());
+        await demoAppModel.getAllPosts().then((posts) {
+          emit(GetPostsSuccessState(postVOList: posts));
+
+          return posts;
+        }).catchError((error) {
+          emit(GetPostsFailureState(errorMessage: error.toString()));
+        });
       },
     );
   }

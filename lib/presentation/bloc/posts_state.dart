@@ -19,6 +19,7 @@ final class GetPostsFailureState extends PostsState {
   GetPostsFailureState({required this.errorMessage});
 }
 
+final class EditPostSuccessState extends PostsState {}
 final class DeletePostSuccessState extends PostsState {}
 
 final class AddPostSuccessState extends PostsState {}

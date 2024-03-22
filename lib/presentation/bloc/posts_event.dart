@@ -22,3 +22,5 @@ final class OnAddPostConfirmedEvent extends PostsEvent {
 
   OnAddPostConfirmedEvent({required this.postVO});
 }
+
+final class OnRefreshAllPosts extends PostsEvent {}

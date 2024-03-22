@@ -46,5 +46,8 @@ class DemoAppModel {
   void editPost(PostVO postVO) {
     return _postsDao.editPost(postVO);
   }
+  void deletePostFromLocalStorage() {
+    return _postsDao.deleteAllPosts();
+  }
 
 }

@@ -42,6 +42,9 @@ class PostsDao {
   void deletePostAtId(int id) {
     getPostsBox().delete(id);
   }
+  void deleteAllPosts() {
+    getPostsBox().clear();
+  }
 
   /// Get POSTS Box from HIVE
   Box<PostVO> getPostsBox() {

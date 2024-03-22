@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:gap/gap.dart';
 import 'package:iapp_flutter_interview_app/data/vos/post_vo.dart';
@@ -9,6 +10,7 @@ import 'package:iapp_flutter_interview_app/presentation/bloc/posts_bloc.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
 
+import '../../utils/toasts.dart';
 import 'add_post_page.dart';
 import 'post_details_page.dart';
 import 'edit_post_page.dart';
@@ -35,6 +37,16 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: kScaffoldBackgroundColor,
           centerTitle: false,
           title: const ProfileCircleSmallWidgetView(),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.read<PostsBloc>().add(OnRefreshAllPosts());
+                },
+                icon: const Icon(
+                  CupertinoIcons.refresh,
+                  color: Colors.white,
+                )),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kMarginMedium4),
@@ -100,7 +112,17 @@ class UserCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PostsBloc, PostsState>(
+    return BlocConsumer<PostsBloc, PostsState>(
+      listener: (context, state) {
+        final ShowToastMessage showToastMessage = ShowToastMessage();
+        if (state is DeletePostSuccessState) {
+          showToastMessage.showSuccessToast("Post deleted successfully");
+        } else if (state is EditPostSuccessState) {
+          showToastMessage.showSuccessToast("Post deleted successfully");
+        } else if (state is AddPostSuccessState) {
+          showToastMessage.showSuccessToast("Successfully added a new post");
+        }
+      },
       builder: (context, state) {
         if (state is GetPostsLoadingState) {
           return const SliverToBoxAdapter(
@@ -201,10 +223,9 @@ class UserCardListView extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                             EditPostPage(
-                                              postVO: post,
-                                            ),
+                                        builder: (context) => EditPostPage(
+                                          postVO: post,
+                                        ),
                                       ));
                                 },
                               ),
@@ -233,6 +254,7 @@ class UserCardListView extends StatelessWidget {
   /// DELETE POP UP
   void showDeleteDialog(BuildContext context, int postId) {
     showCupertinoDialog(
+      barrierDismissible: true,
       context: context,
       builder: (context) {
         return AlertDialog(
