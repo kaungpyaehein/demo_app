@@ -131,6 +131,7 @@ class UserCardListView extends StatelessWidget {
             ),
           );
         } else if (state is GetPostsSuccessState) {
+
           final List<PostVO> postList = state.postVOList;
 
           return SliverList(

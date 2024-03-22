@@ -21,7 +21,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         /// Get posts from network
         await demoAppModel.getAllPosts().then((posts) {
           /// EMIT SUCCESS STATE
-          (GetPostsSuccessState(postVOList: posts));
+          emit(GetPostsSuccessState(postVOList: posts));
         }).catchError((error) {
           /// EMIT FAIL STATE
           emit(GetPostsFailureState(errorMessage: error.toString()));

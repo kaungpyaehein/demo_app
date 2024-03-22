@@ -23,7 +23,7 @@ class DemoAppModel {
   /// GET POSTS FROM NETWORK
   Future<List<PostVO>> getAllPosts() {
     debugPrint("getAlliscalled");
-    return mDataAgent.getPosts().then((posts) {
+    return mDataAgent.getPosts().then((posts) async{
       /// SAVE POST TO LOCAL STORAGE
       _postsDao.savePosts(posts);
       return posts;
@@ -46,8 +46,8 @@ class DemoAppModel {
   void editPost(PostVO postVO) {
     return _postsDao.editPost(postVO);
   }
+
   void deletePostFromLocalStorage() {
     return _postsDao.deleteAllPosts();
   }
-
 }
