@@ -24,27 +24,10 @@ class PostListPage extends StatelessWidget {
                 itemCount: state.postVOList.length,
                 itemBuilder: (context, index) {
                   final PostVO postVO = state.postVOList[index];
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(kMarginMedium4),
-                      gradient: kUserCardGradient,
-                      border: Border.all(color: kTextSecondaryColor),
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: kMarginMedium4, vertical: kMarginSmall),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kMarginMedium3, vertical: kMarginMedium2),
-                    child: Row(
-                      children: [
-                        Text(
-                          "User ID - ${postVO.userId}",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: kTextRegular2X),
-                        ),
-                        const Spacer(),
-                        Text(postVO.id.toString()),
-                      ],
-                    ),
+
+                  return PostItemView(
+                    userId: postVO.userId.toString(),
+                    postId: postVO.id.toString(),
                   );
                 },
               );
@@ -56,6 +39,38 @@ class PostListPage extends StatelessWidget {
             return const SizedBox();
           },
         ),
+      ),
+    );
+  }
+}
+
+class PostItemView extends StatelessWidget {
+  final String userId;
+  final String postId;
+  const PostItemView({super.key, required this.userId, required this.postId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(kMarginMedium4),
+        gradient: kUserCardGradient,
+        border: Border.all(color: kTextSecondaryColor),
+      ),
+      margin: const EdgeInsets.symmetric(
+          horizontal: kMarginMedium4, vertical: kMarginSmall),
+      padding: const EdgeInsets.symmetric(
+          horizontal: kMarginMedium3, vertical: kMarginMedium2),
+      child: Row(
+        children: [
+          Text(
+            "User ID - $userId",
+            style:
+                const TextStyle(color: Colors.white, fontSize: kTextRegular2X),
+          ),
+          const Spacer(),
+          Text(postId),
+        ],
       ),
     );
   }

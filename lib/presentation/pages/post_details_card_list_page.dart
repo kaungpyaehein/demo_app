@@ -51,7 +51,8 @@ class PostDetailsCardListView extends StatelessWidget {
     return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
         if (state is GetPostsLoadingState) {
-          return Center(
+          /// SHOW LOADING
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (state is GetPostsSuccessState) {
@@ -60,7 +61,7 @@ class PostDetailsCardListView extends StatelessWidget {
               itemCount: state.postVOList.length,
               itemBuilder: (context, index) {
                 final PostVO postVO = state.postVOList[index];
-                return PostDetailsCard(
+                return PostDetailsCardView(
                   postVO: postVO,
                   onTap: () {
                     Navigator.push(
@@ -76,6 +77,7 @@ class PostDetailsCardListView extends StatelessWidget {
             ),
           );
         } else if (state is GetPostsFailureState) {
+          /// SHOW ERROR
           return Center(
             child: Text("Error fetching data ${state.errorMessage}"),
           );
@@ -86,8 +88,8 @@ class PostDetailsCardListView extends StatelessWidget {
   }
 }
 
-class PostDetailsCard extends StatelessWidget {
-  const PostDetailsCard({
+class PostDetailsCardView extends StatelessWidget {
+  const PostDetailsCardView({
     super.key,
     required this.postVO,
     required this.onTap,

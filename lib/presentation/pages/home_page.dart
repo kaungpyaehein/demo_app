@@ -118,7 +118,7 @@ class UserCardListView extends StatelessWidget {
         if (state is DeletePostSuccessState) {
           showToastMessage.showSuccessToast("Post deleted successfully");
         } else if (state is EditPostSuccessState) {
-          showToastMessage.showSuccessToast("Post deleted successfully");
+          showToastMessage.showSuccessToast("Post edited successfully");
         } else if (state is AddPostSuccessState) {
           showToastMessage.showSuccessToast("Successfully added a new post");
         }
