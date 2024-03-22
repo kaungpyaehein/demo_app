@@ -13,7 +13,7 @@ class PostsDao {
 
   /// SAVE POSTS FROM NETWORK
   void savePosts(List<PostVO> posts) async {
-    await getPostsBox().clear();
+     getPostsBox().clear();
     Map<int, PostVO> postMap = {for (var post in posts) post.id ?? 0: post};
     await getPostsBox().putAll(postMap);
   }
