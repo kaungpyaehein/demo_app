@@ -7,7 +7,9 @@ class PrimaryButton extends StatelessWidget {
   final String label;
   final void Function() onTap;
   const PrimaryButton({
-    super.key, required this.label, required this.onTap,
+    super.key,
+    required this.label,
+    required this.onTap,
   });
 
   @override
@@ -16,7 +18,7 @@ class PrimaryButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: kMarginMedium4),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
               backgroundColor: kPrimaryColor,
               shape: RoundedRectangleBorder(

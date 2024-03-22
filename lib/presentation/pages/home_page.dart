@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:gap/gap.dart';
-import 'package:iapp_flutter_interview_app/persistence/post_dao.dart';
+import 'package:iapp_flutter_interview_app/data/vos/post_vo.dart';
+import 'package:iapp_flutter_interview_app/presentation/bloc/posts_bloc.dart';
 
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 import 'package:iapp_flutter_interview_app/utils/dimensions.dart';
@@ -21,7 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    debugPrint(PostsDao().getAllPosts().toString());
+    BlocProvider.of<PostsBloc>(context).add(GetAllPostsEvent());
     super.initState();
   }
 
@@ -98,104 +100,138 @@ class UserCardListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate(
-      childCount: 10,
-      (context, index) => Hero(
-        tag: index,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostDetailsPage(
-                    index: index,
-                  ),
-                ));
-          },
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: kPrimaryColor,
-                  borderRadius: BorderRadius.circular(
-                    kMarginXLarge,
-                  ),
-                  gradient: kUserCardGradient),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kMarginMedium4, vertical: kMarginMedium4),
-              margin: const EdgeInsets.only(bottom: kMarginMedium2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      /// AVATAR
-                      CircleAvatar(
-                        maxRadius: 30,
-                        backgroundColor: Colors.black,
-                        child: Text(
-                          "EX",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 25),
-                        ),
-                      ),
-
-                      /// NAME
-                      Text(
-                        "Name",
-                        style: TextStyle(
-                            color: Colors.white, fontSize: kTextRegular2X),
-                      ),
-
-                      /// API
-                      Text(
-                        "API",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Colors.white, fontSize: kTextRegular),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      /// DELETE API BUTTON
-                      DeleteButton(
-                        onTapDelete: () {
-                          showDeleteDialog(context);
-                        },
-                      ),
-                      const SizedBox(height: kMarginXXLarge),
-
-                      /// EDIT API BUTTON
-                      EditButton(
-                        onTapEdit: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const EditPostPage(),
-                              ));
-                        },
-                      ),
-                    ],
-                  )
-                ],
-              ),
+    return BlocBuilder<PostsBloc, PostsState>(
+      builder: (context, state) {
+        if (state is GetPostsLoadingState) {
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-        ),
-      ),
-    ));
+          );
+        } else if (state is GetPostsSuccessState) {
+          final List<PostVO> postList = state.postVOList;
+
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(childCount: postList.length,
+                (context, index) {
+              final PostVO post = postList[index];
+              return Hero(
+                tag: post.id.toString(),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostDetailsPage(
+                            postVO: post,
+                          ),
+                        ));
+                  },
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(
+                            kMarginXLarge,
+                          ),
+                          gradient: kUserCardGradient),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kMarginMedium4, vertical: kMarginMedium4),
+                      margin: const EdgeInsets.only(bottom: kMarginMedium2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              /// AVATAR
+                              const CircleAvatar(
+                                maxRadius: 30,
+                                backgroundColor: Colors.black,
+                                child: Text(
+                                  "EX",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 25),
+                                ),
+                              ),
+
+                              const Gap(kMarginSmall),
+
+                              /// NAME
+                              Text(
+                                post.id.toString(),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: kTextRegular2X),
+                              ),
+
+                              /// API
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  post.title.toString(),
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: kTextRegular),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              /// DELETE API BUTTON
+                              DeleteButton(
+                                onTapDelete: () {
+                                  showDeleteDialog(context, post.id ?? 0);
+                                },
+                              ),
+                              const SizedBox(height: kMarginXXLarge),
+
+                              /// EDIT API BUTTON
+                              EditButton(
+                                onTapEdit: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                             EditPostPage(
+                                              postVO: post,
+                                            ),
+                                      ));
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          );
+        } else if (state is GetPostsFailureState) {
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Text("Error Fetching Data ${state.errorMessage}"),
+            ),
+          );
+        }
+        return const SliverToBoxAdapter(child: SizedBox());
+      },
+    );
   }
 
   /// DELETE POP UP
-  void showDeleteDialog(BuildContext context) {
+  void showDeleteDialog(BuildContext context, int postId) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -216,6 +252,8 @@ class UserCardListView extends StatelessWidget {
           actions: [
             ElevatedButton(
               onPressed: () {
+                context.read<PostsBloc>().add(OnDeletePostEvent(id: postId));
+                context.read<PostsBloc>().add(GetAllPostsEvent());
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:iapp_flutter_interview_app/data/vos/post_vo.dart';
 import 'package:iapp_flutter_interview_app/utils/colors.dart';
 
-import '../../persistence/post_dao.dart';
 import '../../utils/dimensions.dart';
 
 class PostDetailsPage extends StatelessWidget {
-  final int index;
-  const PostDetailsPage({super.key, required this.index});
+  final PostVO postVO;
+
+  const PostDetailsPage({super.key, required this.postVO});
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(PostsDao().getPostById(1)?.body.toString());
-
     return Hero(
       transitionOnUserGestures: true,
-      tag: index,
+      tag: postVO.id.toString(),
       child: Scaffold(
         backgroundColor: kTextFieldFillColor,
         body: CustomScrollView(
@@ -63,7 +62,7 @@ class PostDetailsPage extends StatelessWidget {
                     const Padding(
                       padding: EdgeInsets.only(left: kMarginMedium2),
                       child: Text(
-                        "API",
+                        "POST",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: kTextHeading1X,
@@ -80,9 +79,9 @@ class PostDetailsPage extends StatelessWidget {
                       ),
                     ),
                     const Gap(kMarginMedium),
-                    const Text(
-                      "2",
-                      style: TextStyle(
+                    Text(
+                      postVO.id.toString(),
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: kTextRegular2X,
                         color: Colors.white,
@@ -97,9 +96,9 @@ class PostDetailsPage extends StatelessWidget {
                       ),
                     ),
                     const Gap(kMarginMedium),
-                    const Text(
-                      "quas fugiat ut perspiciatis vero provident",
-                      style: TextStyle(
+                    Text(
+                      postVO.title ?? "",
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: kTextRegular2X,
                         color: Colors.white,
@@ -114,9 +113,9 @@ class PostDetailsPage extends StatelessWidget {
                       ),
                     ),
                     const Gap(kMarginMedium),
-                    const Text(
-                      "eum non blanditiis soluta porro quibusdam voluptas\nvel voluptatem qui placeat dolores qui velit aut\nvel inventore aut cumque culpa explicabo aliquid at\nperspiciatis est et voluptatem dignissimos dolor itaque sit nam",
-                      style: TextStyle(
+                    Text(
+                      postVO.body ?? "",
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: kTextRegular2X,
                         color: Colors.white,

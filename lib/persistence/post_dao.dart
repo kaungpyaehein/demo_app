@@ -25,7 +25,7 @@ class PostsDao {
 
   /// CREATE NEW POST in Hive
   void addNewPost(PostVO post) async {
-    await getPostsBox().add(post);
+    await getPostsBox().put(post.id, post);
   }
 
   /// GET ALL POSTS

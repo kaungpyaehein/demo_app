@@ -31,6 +31,16 @@ class PostVO {
   //to json
   Map<String, dynamic> toJson() => _$PostVOToJson(this);
 
+  // copy wit
+  PostVO copyWith({int? userId, int? id, String? title, String? body}) {
+    return PostVO(
+      userId: userId ?? this.userId,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      body: body ?? this.body,
+    );
+  }
+
   String getId() {
     return "ID_$id";
   }

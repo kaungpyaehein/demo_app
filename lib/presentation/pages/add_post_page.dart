@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:iapp_flutter_interview_app/data/vos/post_vo.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/primary_button_widget.dart';
 import '../../widgets/primary_text_form_field_widget.dart';
+import '../bloc/posts_bloc.dart';
 
-class AddPostPage extends StatelessWidget {
-  const AddPostPage({super.key});
+class AddPostPage extends StatefulWidget {
+  const AddPostPage({
+    super.key,
+  });
+
+  @override
+  State<AddPostPage> createState() => _AddPostPageState();
+}
+
+class _AddPostPageState extends State<AddPostPage> {
+  TextEditingController titleTextController = TextEditingController();
+  TextEditingController bodyTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +37,6 @@ class AddPostPage extends StatelessWidget {
           Column(
             children: [
               const Gap(kMarginLarge),
-
-              /// View
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(
@@ -34,31 +50,89 @@ class AddPostPage extends StatelessWidget {
                   gradient: kUserCardGradient,
                   borderRadius: BorderRadius.circular(kMarginMedium4),
                 ),
-                child: const Form(
+                child: Form(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Gap(kMarginLarge),
-                      Padding(
+                      const Gap(kMarginLarge),
+                      const Padding(
                         padding: EdgeInsets.only(left: kMarginMedium2),
                         child: Text(
-                          "Add New Post",
+                          "ADD NEW POST ",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: kTextHeading1X,
-                              color: Colors.white),
+                            fontWeight: FontWeight.w500,
+                            fontSize: kTextHeading1X,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      Gap(kMarginLarge),
-                      PrimaryTextFormFieldWidget(),
-                      Gap(kMarginLarge),
-                      PrimaryTextFormFieldWidget(),
-                      Gap(kMarginLarge),
-                      PrimaryTextFormFieldWidget(),
-                      Gap(kMarginLarge),
-                      PrimaryTextFormFieldWidget(),
-                      Gap(kMarginLarge),
-                      PrimaryTextFormFieldWidget(),
+                      const Gap(kMarginLarge),
+                      TextFormField(
+                        controller: titleTextController,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: kTextRegular2X,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(kMarginMedium2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(kMarginMedium),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: kMarginMedium4,
+                            vertical: kMarginMedium4,
+                          ),
+                          fillColor: Colors.black,
+                          filled: true,
+                          labelText: "Title",
+                          labelStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: kTextRegular2X,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          hintText: "Edit your title",
+                          hintStyle:
+                              const TextStyle(color: kTextSecondaryColor),
+                        ),
+                      ),
+                      const Gap(kMarginLarge),
+                      TextFormField(
+                        controller: bodyTextController,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: kTextRegular2X,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        minLines: 5,
+                        maxLines: 12,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(kMarginMedium2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(kMarginMedium),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: kMarginMedium4,
+                            vertical: kMarginMedium4,
+                          ),
+                          fillColor: Colors.black,
+                          filled: true,
+                          labelText: "Body",
+                          labelStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: kTextRegular2X,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          hintText: "Edit body text",
+                          hintStyle:
+                              const TextStyle(color: kTextSecondaryColor),
+                        ),
+                      ),
+                      const Gap(kMarginLarge),
                     ],
                   ),
                 ),
@@ -69,9 +143,35 @@ class AddPostPage extends StatelessWidget {
           /// CONFIRM BUTTON VIEW
           Align(
             alignment: Alignment.bottomCenter,
-            child: PrimaryButton(
-              onTap: () {},
-              label: "Confirm",
+            child: BlocBuilder<PostsBloc, PostsState>(
+              builder: (context, state) {
+                if (state is GetPostsLoadingState) {
+                  return PrimaryButton(label: "Confirm", onTap: () {
+                    debugPrint("Hello");
+                  });
+                } else if (state is GetPostsSuccessState) {
+                  return PrimaryButton(
+                    onTap: () {
+                      final PostVO postVO = PostVO(
+                          body: bodyTextController.text.toString(),
+                          title: titleTextController.text.toString(),
+                          id: state.postVOList.last.id! + 1,
+                          userId: state.postVOList.last.userId);
+
+                      print(postVO.title);
+                      context
+                          .read<PostsBloc>()
+                          .add(OnAddPostConfirmedEvent(postVO: postVO));
+                      context.read<PostsBloc>().add(GetAllPostsEvent());
+                      Navigator.pop(context);
+                    },
+                    label: "Confirm",
+                  );
+                } else if (state is GetPostsFailureState) {
+                  return PrimaryButton(label: "Confirm", onTap: () {});
+                }
+                return PrimaryButton(label: "Confirm", onTap: () {});
+              },
             ),
           )
         ],
