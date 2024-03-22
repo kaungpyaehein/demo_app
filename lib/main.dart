@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:iapp_flutter_interview_app/pages/app_navigation.dart';
-import 'package:iapp_flutter_interview_app/utils/fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:iapp_flutter_interview_app/data/vos/post_vo.dart';
+import 'package:iapp_flutter_interview_app/persistence/hive_constants.dart';
+import 'package:iapp_flutter_interview_app/presentation/bloc/posts_bloc.dart';
+import 'package:iapp_flutter_interview_app/presentation/pages/app_navigation.dart';
+import 'package:iapp_flutter_interview_app/utils/colors.dart';
 
-void main() {
+void main() async {
+  /// Initialize hive
+  await Hive.initFlutter();
+
+  /// Register adapters
+  Hive.registerAdapter(PostVOAdapter());
+
+  /// Open Hive Box
+  await Hive.openBox<PostVO>(kBoxNamePostVO);
+
   runApp(const InterviewDemoApp());
 }
 
@@ -11,12 +25,24 @@ class InterviewDemoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: kAnonymousPro,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PostsBloc>(
+          create: (BuildContext context) => PostsBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: kScaffoldBackgroundColor,
+            // fontFamily: kRoboto,
+            appBarTheme: const AppBarTheme(
+                surfaceTintColor: Colors.transparent,
+                backgroundColor: kScaffoldBackgroundColor),
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: kPrimaryColor, brightness: Brightness.dark)),
+        home: const AppNavigation(),
       ),
-      home: const AppNavigation(),
     );
   }
 }

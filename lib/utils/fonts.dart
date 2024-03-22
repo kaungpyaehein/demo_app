@@ -1,1 +1,1 @@
-const String kAnonymousPro = "AnonymousPro";
+const String kRoboto = "Roboto";

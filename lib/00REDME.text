@@ -1,0 +1,29 @@
+The Demo Application
+
+State management package - Bloc
+API Client - Retrofit
+Local Storage or Offline Storage - Hive Flutter
+JSON Serializable
+JSON Annotation
+Build Runner
+
+
+App has 4 layers
+
+Data layer - data
+Network layer - network
+Persistent layer - persistence or Local Storage
+View Layer - Presentation
+
+other utils
+
+
+App Flow
+
+App is set up in the eyes of an production application.
+When use first enter application, the app will call the api form network and get all the posts from the server.
+Then store the data to local storage. Show the data to the view layer.
+When local storage already have data, the api call will not be called.
+If use wants to get he latest posts or manually update data from the server, he can do it via refresh button in the app bar of the application.
+
+Notes : All the data manipulation are done in the local storage or persistent layer in this application.
